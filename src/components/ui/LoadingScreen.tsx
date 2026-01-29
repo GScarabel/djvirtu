@@ -62,53 +62,56 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center">
-        {/* Vital Signs / Heartbeat Animation */}
+        {/* Vital Signs / Heartbeat Animation (Static HTML for Zero Lag) */}
         <div className="relative z-10 flex flex-col items-center mb-12">
-          <div className="relative w-64 h-32 flex items-center justify-center">
-            {/* ECG Path Background */}
-            <svg
-              viewBox="0 0 200 100"
-              className="w-full h-full opacity-10"
-            >
-              <path
-                d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-purple-500"
-              />
-            </svg>
+          <div 
+            className="relative w-64 h-32 flex items-center justify-center"
+            dangerouslySetInnerHTML={{
+              __html: `
+                <!-- ECG Path Background -->
+                <svg viewBox="0 0 200 100" class="w-full h-full opacity-10">
+                  <path
+                    d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-purple-500"
+                  ></path>
+                </svg>
 
-            {/* Animated ECG Path (Global CSS Seamless Loop) */}
-            <svg
-              viewBox="0 0 200 100"
-              className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]"
-            >
-              <path
-                d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
-                fill="none"
-                stroke="url(#ecg-gradient)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                pathLength="100"
-                className="ecg-path-animated"
-              />
-              <defs>
-                <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#7c3aed" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#a855f7" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
-            </svg>
+                <!-- Animated ECG Path (Global CSS Seamless Loop) -->
+                <svg
+                  viewBox="0 0 200 100"
+                  class="absolute inset-0 w-full h-full"
+                  style="filter: drop-shadow(0 0 12px rgba(168,85,247,0.8));"
+                >
+                  <path
+                    d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
+                    fill="none"
+                    stroke="url(#ecg-gradient)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    pathLength="100"
+                    class="ecg-path-animated"
+                  ></path>
+                  <defs>
+                    <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0"></stop>
+                      <stop offset="50%" stop-color="#a855f7" stop-opacity="1"></stop>
+                      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.8"></stop>
+                    </linearGradient>
+                  </defs>
+                </svg>
 
-            {/* Heartbeat Pulse Dot (Global CSS) */}
-            <div
-              className="absolute w-4 h-4 rounded-full bg-purple-500/80 blur-[2px] heartbeat-dot shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-              style={{ top: 'calc(50% - 8px)', right: '10%' }}
-            />
-          </div>
+                <!-- Heartbeat Pulse Dot (Global CSS) -->
+                <div
+                  class="absolute w-4 h-4 rounded-full bg-purple-500/80 heartbeat-dot"
+                  style="top: calc(50% - 8px); right: 10%; filter: blur(2px) drop-shadow(0 0 15px rgba(168,85,247,0.5));"
+                ></div>
+              `
+            }}
+          />
         </div>
 
        
