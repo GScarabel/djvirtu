@@ -1,8 +1,8 @@
 import { useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePreloader } from '../../hooks/usePreloader';
+import { useFramerMotionReady } from '../../hooks/useFramerMotionReady';
 import { fastMotionSafeTransition, infiniteMotionProps } from '../../utils/motion';
-import { useAnimationReady } from '../../contexts/AnimationReadyContext';
 
 interface LoadingScreenProps {
   onLoadComplete: () => void;
@@ -10,18 +10,18 @@ interface LoadingScreenProps {
 
 export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
   const { isComplete } = usePreloader();
-  const { isAnimationReady } = useAnimationReady();
+  const isFramerMotionReady = useFramerMotionReady();
 
   useEffect(() => {
-    // Only complete loading when both preloading and animations are ready
-    if (isComplete && isAnimationReady) {
+    // Only complete loading when both preloading and fonts/motion are ready
+    if (isComplete && isFramerMotionReady) {
       // Pequeno delay para a animação de saída
       const timer = setTimeout(() => {
         onLoadComplete();
-      }, 500);
+      }, 300); // Reduced delay for faster transition
       return () => clearTimeout(timer);
     }
-  }, [isComplete, isAnimationReady, onLoadComplete]);
+  }, [isComplete, isFramerMotionReady, onLoadComplete]);
 
   return (
     <AnimatePresence>
@@ -64,37 +64,6 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
         <div className="relative z-10 flex flex-col items-center">
         {/* Vital Signs / Heartbeat Animation */}
         <div className="relative z-10 flex flex-col items-center mb-12">
-          <style>
-            {`
-              @keyframes ecg-scan {
-                from {
-                  stroke-dashoffset: 100;
-                }
-                to {
-                  stroke-dashoffset: 0;
-                }
-              }
-              @keyframes heartbeat-pulse {
-                0%, 100% {
-                  transform: scale(1);
-                  opacity: 0.5;
-                }
-                50% {
-                  transform: scale(1.4);
-                  opacity: 1;
-                }
-              }
-              .ecg-path-animated {
-                stroke-dasharray: 40 60;
-                stroke-dashoffset: 100;
-                animation: ecg-scan 1.5s linear infinite;
-              }
-              .heartbeat-dot {
-                animation: heartbeat-pulse 0.75s ease-in-out infinite;
-              }
-            `}
-          </style>
-          
           <div className="relative w-64 h-32 flex items-center justify-center">
             {/* ECG Path Background */}
             <svg
@@ -110,7 +79,7 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
               />
             </svg>
 
-            {/* Animated ECG Path (Pure CSS Seamless Loop) */}
+            {/* Animated ECG Path (Global CSS Seamless Loop) */}
             <svg
               viewBox="0 0 200 100"
               className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]"
@@ -134,7 +103,7 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
               </defs>
             </svg>
 
-            {/* Heartbeat Pulse Dot (Pure CSS) */}
+            {/* Heartbeat Pulse Dot (Global CSS) */}
             <div
               className="absolute w-4 h-4 rounded-full bg-purple-500/80 blur-[2px] heartbeat-dot shadow-[0_0_15px_rgba(168,85,247,0.5)]"
               style={{ top: 'calc(50% - 8px)', right: '10%' }}
