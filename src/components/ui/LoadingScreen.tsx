@@ -47,56 +47,60 @@ export const LoadingScreen = memo(function LoadingScreen() {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center">
-        {/* Vital Signs / Heartbeat Animation */}
+        {/* Vital Signs / Heartbeat Animation (GPU-Only Meteor Effect) */}
         <div className="relative z-10 flex flex-col items-center mb-12">
           <div className="relative w-64 h-32 flex items-center justify-center">
-            {/* ECG Path Background */}
-            <svg
-              viewBox="0 0 200 100"
-              className="w-full h-full opacity-10"
-            >
-              <path
-                d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-purple-500"
-              />
-            </svg>
+            {/* Animated ECG Path (GPU Sweeper Reveal) */}
+            <div className="absolute inset-0 w-full h-full ecg-reveal-container overflow-hidden">
+              <div 
+                className="absolute inset-0 w-[60%] h-full ecg-inner-path overflow-visible relative"
+                style={{ 
+                  // Meteor tail effect: Sharp leading edge, long fading trail
+                  maskImage: 'linear-gradient(to right, transparent 0%, black 70%, black 90%, transparent 100%)',
+                  maskSize: '100% 100%'
+                }}
+              >
+                {/* Heartbeat Pulse - The "Meteor" Head */}
+                <div
+                  className="absolute w-3.5 h-3.5 rounded-full bg-white heartbeat-dot z-20 shadow-[0_0_25px_4px_rgba(168,85,247,1),0_0_40px_rgba(59,130,246,0.6)]"
+                  style={{ 
+                    top: 'calc(50% - 7px)', 
+                    right: '5%', // Leading edge
+                    filter: 'blur(0.2px)'
+                  }}
+                >
+                  {/* Meteor Wind / Motion Trails (Flowing to the left) */}
+                  <div className="absolute top-1/2 -left-8 w-8 h-[1px] bg-gradient-to-r from-transparent to-white/60 blur-[1px] -translate-y-1/2" />
+                  <div className="absolute top-[20%] -left-6 w-6 h-[1px] bg-gradient-to-r from-transparent to-purple-400/40 blur-[1px] -rotate-[10deg]" />
+                  <div className="absolute bottom-[20%] -left-6 w-6 h-[1px] bg-gradient-to-r from-transparent to-blue-400/40 blur-[1px] rotate-[10deg]" />
+                </div>
 
-            {/* Animated ECG Path (Global CSS Seamless Loop) */}
-            <svg
-              viewBox="0 0 200 100"
-              className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]"
-            >
-              <path
-                d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
-                fill="none"
-                stroke="url(#ecg-gradient)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                pathLength="100"
-                className="ecg-path-animated"
-              />
-              <defs>
-                <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#7c3aed" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#a855f7" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Heartbeat Pulse Dot (Global CSS) */}
-            <div
-              className="absolute w-4 h-4 rounded-full bg-purple-500/80 blur-[2px] heartbeat-dot shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-              style={{ top: 'calc(50% - 8px)', right: '10%' }}
-            />
+                <div className="absolute inset-0 w-[166.66%] h-full ecg-inner-path">
+                  <svg
+                    viewBox="0 0 200 100"
+                    className="w-full h-full drop-shadow-[0_0_10px_rgba(168,85,247,0.7)]"
+                  >
+                    <path
+                      d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
+                      fill="none"
+                      stroke="url(#ecg-gradient)"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <defs>
+                      <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#7c3aed" stopOpacity="0" />
+                        <stop offset="80%" stopColor="#a855f7" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-       
         </div>
 
         {/* Bottom decorative line */}

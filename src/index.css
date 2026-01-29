@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, djdark;
 }
@@ -46,7 +47,7 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  
+
   /* Noise texture overlay */
   body::before {
     content: '';
@@ -66,23 +67,27 @@
     color: #fff;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     letter-spacing: 0.05em;
   }
 }
 
 @layer components {
+
   /* Gradient text with shine animation - Purple/Blue */
   .gradient-text {
-    background: linear-gradient(
-      90deg,
-      #7c3aed 0%,
-      #a78bfa 25%,
-      #8b5cf6 50%,
-      #3b82f6 75%,
-      #7c3aed 100%
-    );
+    background: linear-gradient(90deg,
+        #7c3aed 0%,
+        #a78bfa 25%,
+        #8b5cf6 50%,
+        #3b82f6 75%,
+        #7c3aed 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -260,24 +265,20 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(3, 0, 20, 0.8) 100%
-    );
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(3, 0, 20, 0.8) 100%);
     pointer-events: none;
   }
 
   /* Animated background gradient */
   .animated-bg {
-    background: linear-gradient(
-      -45deg,
-      #030014,
-      #0a0a1a,
-      #1a0a2e,
-      #0a1a2e,
-      #030014
-    );
+    background: linear-gradient(-45deg,
+        #030014,
+        #0a0a1a,
+        #1a0a2e,
+        #0a1a2e,
+        #030014);
     background-size: 400% 400%;
     animation: gradient-bg 15s ease infinite;
   }
@@ -397,36 +398,54 @@
     transform: translate(-50%, -50%) scale(1);
   }
 
-  /* ECG Animations */
-  @keyframes ecg-scan {
-    from {
-      stroke-dashoffset: 100;
+  /* ECG Animations (GPU Accelerated) */
+  /* ECG Animations (GPU Accelerated) */
+  @keyframes ecg-sweep {
+    0% {
+      transform: translate3d(-100%, 0, 0);
     }
-    to {
-      stroke-dashoffset: 0;
+
+    100% {
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+
+  @keyframes ecg-inner-reverse {
+    0% {
+      transform: translate3d(100%, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(-100%, 0, 0);
     }
   }
 
   @keyframes heartbeat-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: scale(1);
       opacity: 0.5;
     }
+
     50% {
       transform: scale(1.4);
       opacity: 1;
     }
   }
 
-  .ecg-path-animated {
-    stroke-dasharray: 40 60;
-    stroke-dashoffset: 100;
-    animation: ecg-scan 1.5s linear infinite;
-    will-change: stroke-dashoffset;
+  .ecg-reveal-container {
+    animation: ecg-sweep 1.5s linear infinite;
+    will-change: transform;
+  }
+
+  .ecg-inner-path {
+    animation: ecg-inner-reverse 1.5s linear infinite;
+    will-change: transform;
   }
 
   .heartbeat-dot {
-    animation: heartbeat-pulse 0.75s ease-in-out infinite;
+    animation: heartbeat-pulse 1.5s ease-in-out infinite;
     will-change: transform, opacity;
   }
 }
@@ -436,15 +455,19 @@
   0% {
     background-position: 200% center;
   }
+
   100% {
     background-position: -200% center;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -454,20 +477,25 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow:
       0 0 20px rgba(139, 92, 246, 0.3),
       0 0 40px rgba(139, 92, 246, 0.1);
   }
+
   50% {
     box-shadow:
       0 0 30px rgba(139, 92, 246, 0.5),
@@ -476,9 +504,12 @@
 }
 
 @keyframes bounce-scroll {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(10px);
   }
@@ -489,6 +520,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -496,10 +528,13 @@
 }
 
 @keyframes pulse-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.15;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.25;
     transform: scale(1.1);
@@ -610,14 +645,12 @@
   }
 
   .gradient-text {
-    background: linear-gradient(
-      90deg,
-      #6d28d9 0%,
-      #7c3aed 25%,
-      #8b5cf6 50%,
-      #2563eb 75%,
-      #6d28d9 100%
-    );
+    background: linear-gradient(90deg,
+        #6d28d9 0%,
+        #7c3aed 25%,
+        #8b5cf6 50%,
+        #2563eb 75%,
+        #6d28d9 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;

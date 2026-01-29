@@ -60,7 +60,11 @@ function AppContent() {
 
   return (
     <>
-      {isLoading && <BackgroundLoader onLoadComplete={handleLoadComplete} />}
+      {isLoading && (
+        <BackgroundLoader 
+          onLoadComplete={handleLoadComplete} 
+        />
+      )}
 
       <AnimatePresence mode="wait">
         {isLoading && isHomePage && (
@@ -68,7 +72,7 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      <div>
+      <div className="relative">
         <AppRoutes />
         <Toaster
           position="top-right"
