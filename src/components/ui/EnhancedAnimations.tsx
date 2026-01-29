@@ -32,14 +32,18 @@ export const CardHover = ({ children, className = "" }: { children: React.ReactN
 };
 
 // Enhanced button with ripple effect
-export const ButtonRipple = ({ children, className = "", onClick, ...props }: {
+export const ButtonRipple = ({ children, className = "", onClick, href, ...props }: {
   children: React.ReactNode;
   className?: string;
   onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
+  href?: string;
   [key: string]: any;
 }) => {
+  const Component = href ? motion.a : motion.button;
+  
   return (
-    <motion.button
+    <Component
+      href={href}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={`relative overflow-hidden ${className}`}
@@ -52,7 +56,7 @@ export const ButtonRipple = ({ children, className = "", onClick, ...props }: {
         whileHover={{ scale: 2, opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
-    </motion.button>
+    </Component>
   );
 };
 
