@@ -11,6 +11,7 @@ import { Login } from './pages/Login';
 import { Admin } from './pages/Admin';
 import { GlowCursor } from './components/ui/GlowCursor';
 import { LoadingScreen } from './components/ui/LoadingScreen';
+import { BackgroundLoader } from './components/ui/BackgroundLoader';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -59,9 +60,11 @@ function AppContent() {
 
   return (
     <>
+      {isLoading && <BackgroundLoader onLoadComplete={handleLoadComplete} />}
+
       <AnimatePresence mode="wait">
         {isLoading && isHomePage && (
-          <LoadingScreen key="loading" onLoadComplete={handleLoadComplete} />
+          <LoadingScreen key="loading" />
         )}
       </AnimatePresence>
 

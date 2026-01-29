@@ -1,28 +1,13 @@
-import { useEffect, memo } from 'react';
+import { memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePreloader } from '../../hooks/usePreloader';
-import { useFramerMotionReady } from '../../hooks/useFramerMotionReady';
 import { fastMotionSafeTransition, infiniteMotionProps } from '../../utils/motion';
 
-interface LoadingScreenProps {
-  onLoadComplete: () => void;
-}
-
-export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
-  const { isComplete } = usePreloader();
-  const isFramerMotionReady = useFramerMotionReady();
-
-  useEffect(() => {
-    // Only complete loading when both preloading and fonts/motion are ready
-    if (isComplete && isFramerMotionReady) {
-      // Pequeno delay para a animação de saída
-      const timer = setTimeout(() => {
-        onLoadComplete();
-      }, 300); // Reduced delay for faster transition
-      return () => clearTimeout(timer);
-    }
-  }, [isComplete, isFramerMotionReady, onLoadComplete]);
-
+/**
+ * Purely visual loading screen. Dedicated to a smooth, interrupt-free ECG animation.
+ * By removing all state and hooks, we ensure React never re-renders this component,
+ * allowing the browser's compositor thread to keep the CSS animation fluid.
+ */
+export const LoadingScreen = memo(function LoadingScreen() {
   return (
     <AnimatePresence>
       <motion.div
