@@ -66,20 +66,12 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
         <div className="relative z-10 flex flex-col items-center mb-12">
           <style>
             {`
-              @keyframes ecg-draw {
-                0% {
-                  stroke-dashoffset: 1000;
-                  opacity: 0;
+              @keyframes ecg-scan {
+                from {
+                  stroke-dashoffset: 100;
                 }
-                10% {
-                  opacity: 1;
-                }
-                90% {
-                  opacity: 1;
-                }
-                100% {
+                to {
                   stroke-dashoffset: 0;
-                  opacity: 0;
                 }
               }
               @keyframes heartbeat-pulse {
@@ -88,17 +80,17 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
                   opacity: 0.5;
                 }
                 50% {
-                  transform: scale(1.5);
+                  transform: scale(1.4);
                   opacity: 1;
                 }
               }
               .ecg-path-animated {
-                stroke-dasharray: 1000;
-                stroke-dashoffset: 1000;
-                animation: ecg-draw 2s linear infinite;
+                stroke-dasharray: 40 60;
+                stroke-dashoffset: 100;
+                animation: ecg-scan 1.5s linear infinite;
               }
               .heartbeat-dot {
-                animation: heartbeat-pulse 0.8s ease-in-out infinite;
+                animation: heartbeat-pulse 0.75s ease-in-out infinite;
               }
             `}
           </style>
@@ -107,7 +99,7 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
             {/* ECG Path Background */}
             <svg
               viewBox="0 0 200 100"
-              className="w-full h-full opacity-20"
+              className="w-full h-full opacity-10"
             >
               <path
                 d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
@@ -118,10 +110,10 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
               />
             </svg>
 
-            {/* Animated ECG Path (Pure CSS) */}
+            {/* Animated ECG Path (Pure CSS Seamless Loop) */}
             <svg
               viewBox="0 0 200 100"
-              className="absolute inset-0 w-full h-full drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]"
+              className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]"
             >
               <path
                 d="M0,50 L40,50 L50,20 L60,80 L70,50 L100,50 L110,10 L125,90 L140,50 L200,50"
@@ -130,20 +122,21 @@ export const LoadingScreen = memo(function LoadingScreen({ onLoadComplete }: Loa
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                pathLength="100"
                 className="ecg-path-animated"
               />
               <defs>
                 <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#7c3aed" stopOpacity="0" />
                   <stop offset="50%" stopColor="#a855f7" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.8" />
                 </linearGradient>
               </defs>
             </svg>
 
             {/* Heartbeat Pulse Dot (Pure CSS) */}
             <div
-              className="absolute w-4 h-4 rounded-full bg-purple-500 blur-sm heartbeat-dot"
+              className="absolute w-4 h-4 rounded-full bg-purple-500/80 blur-[2px] heartbeat-dot shadow-[0_0_15px_rgba(168,85,247,0.5)]"
               style={{ top: 'calc(50% - 8px)', right: '10%' }}
             />
           </div>
